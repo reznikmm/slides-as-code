@@ -16,6 +16,9 @@ development.optimization = ["-O0"]
 development.style_checks = ["-gnaty"]
 development.contracts = "Yes"
 
+[build-profiles]
+slides_as_code = "development"
+
 [[depends-on]]
 slides_as_code = "~0.1.0-dev"
 

@@ -20,6 +20,8 @@ package Slides_As_Code.Contexts is
 
    procedure Show (Self : in out Context'Class);
 
+   function Current_Slide (Self : Context'Class) return Slides.Slide_Access;
+
    function Current_Slide_Index (Self : Context'Class) return Positive;
 
    function Total_Slides (Self : Context'Class) return Natural;
@@ -36,6 +38,9 @@ private
       Stack  : Gtk.Stack.Gtk_Stack;
       Window : Gtk.Window.Gtk_Window;
    end record;
+
+   function Current_Slide (Self : Context'Class) return Slides.Slide_Access is
+     (Self.Slides (Self.Index));
 
    function Current_Slide_Index (Self : Context'Class) return Positive is
       (Self.Index);

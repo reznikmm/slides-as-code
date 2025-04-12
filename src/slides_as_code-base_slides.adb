@@ -17,7 +17,7 @@ package body Slides_As_Code.Base_Slides is
      (Self    : Base_Slide;
       Context : in out Slides_As_Code.Contexts.Context'Class)
    is
-      Text   : String := Context.Current_Slide_Index'Image & " /" &
+      Text   : constant String := Context.Current_Slide_Index'Image & " /" &
         Context.Total_Slides'Image;
 
       Label  : Gtk.Label.Gtk_Label;
@@ -27,6 +27,7 @@ package body Slides_As_Code.Base_Slides is
       Gtk.Label.Gtk_New (Label, "Hello Word! " & Text);
       Gtk.Stack.Add (Stack, Label);
       Gtk.Label.Show (Label);
+      Gtk.Stack.Set_Visible_Child (Stack, Label);
    end Show;
 
 end Slides_As_Code.Base_Slides;

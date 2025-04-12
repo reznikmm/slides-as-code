@@ -7,8 +7,6 @@ with Glib;
 with Glib.Main;
 with Gtk.Main;
 
-with Slides_As_Code.Slides;
-
 package body Slides_As_Code.Contexts is
 
    type Context_Access is access all Context'Class with Storage_Size => 0;
@@ -61,7 +59,7 @@ package body Slides_As_Code.Contexts is
       Slide.Show (Context.all);
 
       Ignore := Context_Source.Timeout_Add
-        (Interval => 10_000,
+        (Interval => 5_000,
          Func     => Next_Slide'Access,
          Data     => Context);
 
@@ -84,7 +82,7 @@ package body Slides_As_Code.Contexts is
    ----------
 
    procedure Show (Self : in out Context'Class) is
-      Source : Glib.Main.G_Source_Id;
+      Ignore : Glib.Main.G_Source_Id;
    begin
       Gtk.Main.Init;
 
@@ -92,7 +90,7 @@ package body Slides_As_Code.Contexts is
          Slide.Construct (Self);
       end loop;
 
-      Source := Context_Source.Idle_Add
+      Ignore := Context_Source.Idle_Add
         (Start_Presentation'Access, Self'Unchecked_Access);
 
       Gtk.Main.Main;
