@@ -7,8 +7,8 @@ with Gtk.Window;
 
 package body Slides_As_Code.Contexts.Windows is
 
-   function Get_Window
-     (Self : in out Context'Class) return Gtk.Window.Gtk_Window
+   function Get_Stack
+     (Self : in out Context'Class) return Gtk.Stack.Gtk_Stack
    is
       use type Gtk.Window.Gtk_Window;
    begin
@@ -18,9 +18,12 @@ package body Slides_As_Code.Contexts.Windows is
            (Window => Self.Window,
             Width  => 1024,
             Height => 720);
+         Gtk.Stack.Gtk_New (Self.Stack);
+         Gtk.Window.Add (Self.Window, Self.Stack);
+         Gtk.Window.Show_All (Self.Window);
       end if;
 
-      return Self.Window;
-   end Get_Window;
+      return Self.Stack;
+   end Get_Stack;
 
 end Slides_As_Code.Contexts.Windows;

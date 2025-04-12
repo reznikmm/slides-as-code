@@ -88,6 +88,10 @@ package body Slides_As_Code.Contexts is
    begin
       Gtk.Main.Init;
 
+      for Slide of Self.Slides loop
+         Slide.Construct (Self);
+      end loop;
+
       Source := Context_Source.Idle_Add
         (Start_Presentation'Access, Self'Unchecked_Access);
 

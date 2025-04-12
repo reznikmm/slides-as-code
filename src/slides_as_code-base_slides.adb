@@ -4,7 +4,7 @@
 ----------------------------------------------------------------
 
 with Gtk.Label;
-with Gtk.Window;
+with Gtk.Stack;
 with Slides_As_Code.Contexts.Windows;
 
 package body Slides_As_Code.Base_Slides is
@@ -17,13 +17,16 @@ package body Slides_As_Code.Base_Slides is
      (Self    : Base_Slide;
       Context : in out Slides_As_Code.Contexts.Context'Class)
    is
+      Text   : String := Context.Current_Slide_Index'Image & " /" &
+        Context.Total_Slides'Image;
+
       Label  : Gtk.Label.Gtk_Label;
-      Window : constant Gtk.Window.Gtk_Window :=
-        Slides_As_Code.Contexts.Windows.Get_Window (Context);
+      Stack : constant Gtk.Stack.Gtk_Stack :=
+        Slides_As_Code.Contexts.Windows.Get_Stack (Context);
    begin
-      Gtk.Label.Gtk_New (Label, "Hello Word.");
-      Gtk.Window.Add (Window, Label);
-      Gtk.Window.Show_All (Window);
+      Gtk.Label.Gtk_New (Label, "Hello Word! " & Text);
+      Gtk.Stack.Add (Stack, Label);
+      Gtk.Label.Show (Label);
    end Show;
 
 end Slides_As_Code.Base_Slides;
