@@ -12,7 +12,7 @@ package Slides_As_Code.Slides is
    type Slide_Access is access all Slide'Class;
 
    not overriding procedure Construct
-     (Self    : Slide;
+     (Self    : in out Slide;
       Context : in out Slides_As_Code.Contexts.Context'Class) is null;
 
    not overriding procedure Show

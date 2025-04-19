@@ -21,7 +21,7 @@ private
    end record;
 
    overriding procedure Construct
-     (Self    : Base_Slide;
+     (Self    : in out Base_Slide;
       Context : in out Slides_As_Code.Contexts.Context'Class);
 
    overriding procedure Show

@@ -14,7 +14,7 @@ package body Slides_As_Code.Base_Slides is
    ---------------
 
    overriding procedure Construct
-     (Self    : Base_Slide;
+     (Self    : in out Base_Slide;
       Context : in out Slides_As_Code.Contexts.Context'Class)
    is
       Label : Gtk.Label.Gtk_Label;

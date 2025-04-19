@@ -5,10 +5,25 @@
   background-color: white;
   color: #ff00ea;
   font: 46px "Comic Sans";
+  font-style: italic;
 }
 
 #slide-3 {
   background-image: linear-gradient(45deg, yellow, blue);
   color: black;
   font: 46px "sans-serif";
+}
+
+
+/* Markdown styles */
+
+.heading {
+  font: 46px "Comic Sans";
+  font-weight: bold;
+  color: red;
+}
+
+.paragraph {
+  font: 20px "Comic Sans";
+  color: blue;
 }

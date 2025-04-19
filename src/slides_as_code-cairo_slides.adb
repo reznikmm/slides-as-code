@@ -10,7 +10,9 @@ with Gtk.Stack;
 with Gtk.Style_Context;
 with Gtk.Widget;
 with Pango.Layout;
+
 with Slides_As_Code.Contexts.Windows;
+with Slides_As_Code.Slides;
 
 package body Slides_As_Code.Cairo_Slides is
 
@@ -38,7 +40,7 @@ package body Slides_As_Code.Cairo_Slides is
    ---------------
 
    overriding procedure Construct
-     (Self    : Cairo_Slide;
+     (Self    : in out Cairo_Slide;
       Context : in out Slides_As_Code.Contexts.Context'Class)
    is
       Stack : constant Gtk.Stack.Gtk_Stack :=
@@ -47,11 +49,15 @@ package body Slides_As_Code.Cairo_Slides is
       Name : constant String := Self.Name (Context);
       Area : constant Context_Drawing_Area := new Context_Drawing_Area_Record;
    begin
+      Gtk.Box.Gtk_New_Vbox (Self.VBox);
+      Gtk.Box.Set_Name (Self.VBox, Name);
+      Gtk.Box.Show (Self.VBox);
+      Gtk.Stack.Add_Named (Stack, Self.VBox, Name);
+
       Area.Context := Context'Unchecked_Access;
       Gtk.Drawing_Area.Initialize (Area);
-      Area.Set_Name (Name);
-      Gtk.Stack.Add_Named (Stack, Area, Name);
       Show (Area);
+      Gtk.Box.Add (Self.VBox, Area);
 
       Event_Cb.Connect
         (Area,
@@ -125,6 +131,8 @@ package body Slides_As_Code.Cairo_Slides is
       Cairo.Show_Text (CC, "Pi/2");
       Cairo.Restore (CC);
       Cairo.Stroke (CC);
+
+      Layout.Unref;
    end Draw;
 
    ------------
