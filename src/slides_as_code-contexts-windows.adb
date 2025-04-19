@@ -20,6 +20,7 @@ package body Slides_As_Code.Contexts.Windows is
             Height => 720);
          Gtk.Stack.Gtk_New (Self.Stack);
          Gtk.Window.Add (Self.Window, Self.Stack);
+         Gtk.Window.Set_Name (Self.Window, "slides-as-code");
          Gtk.Window.Show_All (Self.Window);
       end if;
 

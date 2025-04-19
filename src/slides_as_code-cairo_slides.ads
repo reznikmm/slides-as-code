@@ -5,6 +5,7 @@
 
 private with Cairo;
 
+with Slides_As_Code.Base_Slides;
 with Slides_As_Code.Contexts;
 with Slides_As_Code.Slides;
 
@@ -14,15 +15,11 @@ package Slides_As_Code.Cairo_Slides is
 
 private
 
-   type Cairo_Slide is new Slides_As_Code.Slides.Slide with record
+   type Cairo_Slide is new Slides_As_Code.Base_Slides.Base_Slide with record
       null;
    end record;
 
    overriding procedure Construct
-     (Self    : Cairo_Slide;
-      Context : in out Slides_As_Code.Contexts.Context'Class);
-
-   overriding procedure Show
      (Self    : Cairo_Slide;
       Context : in out Slides_As_Code.Contexts.Context'Class);
 

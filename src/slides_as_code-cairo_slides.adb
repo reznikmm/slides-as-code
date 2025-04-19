@@ -7,13 +7,12 @@ with Glib;
 with Gtk.Drawing_Area;
 with Gtk.Handlers;
 with Gtk.Stack;
+with Gtk.Style_Context;
 with Gtk.Widget;
-
+with Pango.Layout;
 with Slides_As_Code.Contexts.Windows;
 
 package body Slides_As_Code.Cairo_Slides is
-
-   Item_Name : constant String := "cairo";
 
    type Context_Access is access
      all Slides_As_Code.Contexts.Context'Class'Class with Storage_Size => 0;
@@ -44,21 +43,20 @@ package body Slides_As_Code.Cairo_Slides is
    is
       Stack : constant Gtk.Stack.Gtk_Stack :=
         Contexts.Windows.Get_Stack (Context);
-      Area  : Context_Drawing_Area :=
-        Context_Drawing_Area (Gtk.Stack.Get_Child_By_Name (Stack, Item_Name));
-   begin
-      if Area = null then
-         Area := new Context_Drawing_Area_Record;
-         Area.Context := Context'Unchecked_Access;
-         Gtk.Drawing_Area.Initialize (Area);
-         Gtk.Stack.Add_Named (Stack, Area, Item_Name);
-         Show (Area);
 
-         Event_Cb.Connect
-           (Area,
-            Gtk.Widget.Signal_Draw,
-            Event_Cb.To_Marshaller (Redraw'Access));
-      end if;
+      Name : constant String := Self.Name (Context);
+      Area : constant Context_Drawing_Area := new Context_Drawing_Area_Record;
+   begin
+      Area.Context := Context'Unchecked_Access;
+      Gtk.Drawing_Area.Initialize (Area);
+      Area.Set_Name (Name);
+      Gtk.Stack.Add_Named (Stack, Area, Name);
+      Show (Area);
+
+      Event_Cb.Connect
+        (Area,
+         Gtk.Widget.Signal_Draw,
+         Event_Cb.To_Marshaller (Redraw'Access));
    end Construct;
 
    ----------
@@ -70,10 +68,39 @@ package body Slides_As_Code.Cairo_Slides is
       Context : in out Slides_As_Code.Contexts.Context'Class;
       CC      : Cairo.Cairo_Context)
    is
-      pragma Unreferenced (Context);
       use type Glib.Gdouble;
+      Stack : constant Gtk.Stack.Gtk_Stack :=
+        Contexts.Windows.Get_Stack (Context);
+
+      Layout : constant Pango.Layout.Pango_Layout :=
+        Stack.Create_Pango_Layout ("Hello");
+
+      Style  : constant Gtk.Style_Context.Gtk_Style_Context :=
+        Gtk.Style_Context.Get_Style_Context (Stack);
    begin
       Cairo.Save (CC);
+      Gtk.Style_Context.Render_Background
+        (Style, CC, 0.0, 0.0, 1024.0, 720.0);
+      --  Cairo.Restore (CC);
+
+      --  Cairo.Save (CC);
+      Cairo.Set_Source_Rgb (CC, 0.13, 0.26, 0.39);
+      Cairo.Select_Font_Face
+        (CC,
+         "sans-serif",
+         Cairo.Cairo_Font_Slant_Normal,
+         Cairo.Cairo_Font_Weight_Bold);
+      Cairo.Set_Font_Size (CC, 46.6);
+      Cairo.Translate (CC, 80.0, 300.0);  --  doesn't work?
+      Cairo.Show_Text (CC, "Slide 2");
+
+      Cairo.Rotate (CC, 45.0);
+      Gtk.Style_Context.Render_Layout
+        (Style, CC, 10.0, 10.0, Layout);
+      Cairo.Restore (CC);
+
+      Cairo.Save (CC);
+      Cairo.Translate (CC, 600.0, 0.0);
       Cairo.Translate (CC, 10.0, 10.0);
       Cairo.Scale (CC, 5.0, 5.0);
       Cairo.Set_Font_Size (CC, 5.0);
@@ -116,19 +143,5 @@ package body Slides_As_Code.Cairo_Slides is
 
       return False;
    end Redraw;
-
-   ----------
-   -- Show --
-   ----------
-
-   overriding procedure Show
-     (Self    : Cairo_Slide;
-      Context : in out Slides_As_Code.Contexts.Context'Class)
-   is
-      Stack : constant Gtk.Stack.Gtk_Stack :=
-        Contexts.Windows.Get_Stack (Context);
-   begin
-      Gtk.Stack.Set_Visible_Child_Name (Stack, Item_Name);
-   end Show;
 
 end Slides_As_Code.Cairo_Slides;

@@ -85,9 +85,11 @@ package body Slides_As_Code.Contexts is
       Ignore : Glib.Main.G_Source_Id;
    begin
       Gtk.Main.Init;
+      Self.Index := 1;
 
       for Slide of Self.Slides loop
          Slide.Construct (Self);
+         Self.Index := Self.Index + 1;
       end loop;
 
       Ignore := Context_Source.Idle_Add
