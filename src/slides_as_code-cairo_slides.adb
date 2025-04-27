@@ -53,6 +53,7 @@ package body Slides_As_Code.Cairo_Slides is
       Gtk.Box.Set_Name (Self.VBox, Name);
       Gtk.Box.Show (Self.VBox);
       Gtk.Stack.Add_Named (Stack, Self.VBox, Name);
+      Gtk.Stack.Set_Visible_Child (Stack, Self.VBox);
 
       Area.Context := Context'Unchecked_Access;
       Gtk.Drawing_Area.Initialize (Area);
