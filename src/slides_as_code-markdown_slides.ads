@@ -3,8 +3,12 @@
 --  SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 ----------------------------------------------------------------
 
+private with Ada.Containers.Vectors;
 private with Cairo;
+private with Glib;
 private with Gtk.Label;
+private with Pango.Layout;
+private with Markdown.Blocks.ATX_Headings;
 
 with Slides_As_Code.Cairo_Slides;
 with Slides_As_Code.Contexts;
@@ -17,9 +21,25 @@ package Slides_As_Code.Markdown_Slides is
 
 private
 
+   type Block_Record is record
+      Label  : Gtk.Label.Gtk_Label;
+      Layout : Pango.Layout.Pango_Layout;
+      Height : Glib.Gdouble;
+      X      : Glib.Gdouble;  --  Left margin
+      Y      : Glib.Gdouble;
+   end record;
+
+   package Block_Vectors is new Ada.Containers.Vectors
+     (Positive, Block_Record);
+
+   type Label_Array is array (Positive range <>) of Gtk.Label.Gtk_Label;
+
+   subtype Heading_Level is Markdown.Blocks.ATX_Headings.Heading_Level;
+
    type Markdown_Slide is new Cairo_Slides.Cairo_Slide with record
-      Heading   : Gtk.Label.Gtk_Label;
+      Headings  : Label_Array (Heading_Level);
       Paragraph : Gtk.Label.Gtk_Label;
+      Blocks    : Block_Vectors.Vector;
    end record;
 
    overriding procedure Construct

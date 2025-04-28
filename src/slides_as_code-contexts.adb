@@ -59,7 +59,7 @@ package body Slides_As_Code.Contexts is
       Slide.Show (Context.all);
 
       Ignore := Context_Source.Timeout_Add
-        (Interval => 5_000,
+        (Interval => 50_000,
          Func     => Next_Slide'Access,
          Data     => Context);
 

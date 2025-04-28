@@ -15,4 +15,5 @@ development.style_checks = ["-gnaty"]
 development.contracts = "Yes"
 
 [[depends-on]]
-gtkada = "*"
+gtkada = "^25"
+markdown = "^25"
