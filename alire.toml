@@ -17,3 +17,6 @@ development.contracts = "Yes"
 [[depends-on]]
 gtkada = "^25"
 markdown = "^25"
+
+[[pins]]
+markdown = { url='https://github.com/AdaCore/markdown' }

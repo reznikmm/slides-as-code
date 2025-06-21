@@ -39,6 +39,8 @@ private
    type Markdown_Slide is new Cairo_Slides.Cairo_Slide with record
       Headings  : Label_Array (Heading_Level);
       Paragraph : Gtk.Label.Gtk_Label;
+      Code_Span : Gtk.Label.Gtk_Label;
+      Link      : Gtk.Label.Gtk_Label;
       Blocks    : Block_Vectors.Vector;
    end record;
 

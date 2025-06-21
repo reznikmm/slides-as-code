@@ -31,3 +31,13 @@
   font: 20px "Comic Sans";
   color: blue;
 }
+
+.code-span {
+  font-family: "Ubuntu Sans Mono", "Fira Code", monospace;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.link {
+  color: green;
+}
